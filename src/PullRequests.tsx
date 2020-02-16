@@ -79,10 +79,20 @@ export function PullRequests() {
     </ChartView>
     <RightColumn>
       <RightColumnContent>
-        <Chip label={`${prs.length} pull requests`}/>
+        <RightColumnSection>
+          <Chip label={`${prs.length} pull requests`}/>
+        </RightColumnSection>
+        <RightColumnSection>
+          <Chip label={`${developersNumber(prs)} developers`}/>
+        </RightColumnSection>
       </RightColumnContent>
     </RightColumn>
   </Page>
+}
+
+function developersNumber(prs: PullsGetResponse[]): number {
+  const ids = new Set(prs.map(pr => pr.user.id))
+  return ids.size
 }
 
 async function loadPRs() {
@@ -120,4 +130,10 @@ const RightColumn = styled.div`
 const RightColumnContent = styled.div`
   padding-left: 32px;
   padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+`
+
+const RightColumnSection = styled.div`
+  padding-top: 8px;
 `
