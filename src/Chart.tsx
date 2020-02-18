@@ -15,7 +15,7 @@ function buildSVG(charData: ChartData) {
   const height = 800
   const color = d3.scaleLinear()
     .domain([0, 5])
-    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .range(["hsl(210,11%,96%)", "hsl(270,2%,36%)"])
     .interpolate(d3.interpolateHcl)
 
   const pack = data => d3.pack()
@@ -51,6 +51,7 @@ function buildSVG(charData: ChartData) {
     .style("font", "10px sans-serif")
     .attr("pointer-events", "none")
     .attr("text-anchor", "middle")
+    .attr("fill", "#1f2d3d")
     .selectAll("text")
     .data(root.descendants())
     .join("text")

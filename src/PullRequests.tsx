@@ -22,18 +22,18 @@ function color(createdAt: Date): string {
   const now = new Date()
   const days = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 25)
   if (days > 15) {
-    return "#4f2618"
+    return "#5C6B5C"
   }
   if (days > 8) {
-    return "#7e5456"
+    return "#7C665E"
   }
   if (days > 5) {
-    return "#a68a95"
+    return "#AA8B80"
   }
   if (days > 3) {
-    return "#cdc4ce"
+    return "#E2C1B5"
   }
-  return "white"
+  return "#EFDDD6"
 }
 
 function prsToChartData(prs: PullsGetResponse[]): ChartData {
@@ -117,7 +117,7 @@ async function loadPRs() {
 const Page = styled.div`
   display: flex;
   height: 100vh;
-  background-color: #e8f7f8;
+  background-color: #B3B3B4;
 `
 
 const ChartView = styled.div`
