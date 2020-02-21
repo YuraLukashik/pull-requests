@@ -1,13 +1,11 @@
 import * as React from "react"
-import { Octokit } from "@octokit/rest"
 import { Chart, ChartData } from "./Chart"
 import { useEffect, useState } from "react"
 import { CircularProgress } from "@material-ui/core"
 import styled from 'styled-components'
 import Chip from "@material-ui/core/Chip"
-import PullsGetResponse = Octokit.PullsGetResponse
-import { repositorySettings } from "./RepositorySettings"
 import { CenteredContent } from "./Layouts"
+import { loadAllPullRequests, PullRequest } from "./github-api"
 
 function parseTeam(title: string): string {
   const pattern = /^([A-Z0-9]+)-/
@@ -36,7 +34,7 @@ function color(createdAt: Date): string {
   return "#EFDDD6"
 }
 
-function prsToChartData(prs: PullsGetResponse[]): ChartData {
+function prsToChartData(prs: PullRequest[]): ChartData {
   const teams = {}
   prs.forEach(pr => {
     const team = parseTeam(pr.title)
@@ -46,7 +44,7 @@ function prsToChartData(prs: PullsGetResponse[]): ChartData {
     teams[team].push({
       name: pr.title + "\n",
       value: pr.additions + pr.deletions,
-      color: color(new Date(pr.created_at))
+      color: color(pr.createdAt)
     })
   })
   const teamsCharts = Object.keys(teams).map(team => ({
@@ -63,7 +61,7 @@ export function PullRequests() {
   const [chartData, setChartData] = useState(undefined)
   const [prs, setPrs] = useState(undefined)
   useEffect(() => {
-    loadPRs().then(prs => {
+    loadAllPullRequests().then(prs => {
       setChartData(prsToChartData(prs))
       setPrs(prs)
     })
@@ -90,28 +88,9 @@ export function PullRequests() {
   </Page>
 }
 
-function developersNumber(prs: PullsGetResponse[]): number {
-  const ids = new Set(prs.map(pr => pr.user.id))
+function developersNumber(prs: PullRequest[]): number {
+  const ids = new Set(prs.map(pr => pr.author.id))
   return ids.size
-}
-
-async function loadPRs() {
-  const settings = repositorySettings()
-  const repo = { repo: settings.repository, owner: settings.owner}
-  const octokit = new Octokit({
-    auth: settings.accessToken
-  })
-  const prsResponse = await octokit.pulls.list({
-    ...repo,
-    per_page: 100
-  })
-  return Promise.all(prsResponse.data.map(async pr => {
-    const response = await octokit.pulls.get({
-      ...repo,
-      pull_number: pr.number
-    })
-    return response.data
-  }))
 }
 
 const Page = styled.div`
