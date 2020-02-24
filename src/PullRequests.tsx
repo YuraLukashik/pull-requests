@@ -8,8 +8,8 @@ import { CenteredContent } from "./Layouts"
 import { loadAllPullRequests, PullRequest } from "./github-api"
 
 function parseTeam(title: string): string {
-  const pattern = /^([A-Z0-9]+)-/
-  const matches = pattern.exec(title)
+  const pattern = /^([A-Z0-9]+)[-\s][0-9]+/
+  const matches = pattern.exec(title.toUpperCase())
   if (!matches) {
     return "No Team"
   }
