@@ -47,7 +47,9 @@ function prsToChartData(prs: PullRequest[]): ChartData {
       color: color(pr.createdAt)
     })
   })
-  const teamsCharts = Object.keys(teams).map(team => ({
+  const teamsToExclude = new Set(["RELEASE"])
+  const teamsNames = Object.keys(teams).filter(teamName => !teamsToExclude.has(teamName))
+  const teamsCharts = teamsNames.map(team => ({
     name: team,
     children: teams[team]
   }))
