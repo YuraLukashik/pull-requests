@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import Chip from "@material-ui/core/Chip"
 import { CenteredContent } from "./Layouts"
 import { loadAllPullRequests, PullRequest } from "./github-api"
+import Checkbox from "@material-ui/core/Checkbox"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
 
 function parseTeam(title: string): string {
   const pattern = /^([A-Z0-9]+)[-\s][0-9]+/
@@ -59,20 +61,28 @@ function prsToChartData(prs: PullRequest[]): ChartData {
   }
 }
 
+function leaveOnlyNeedsReview(prs: PullRequest[]): PullRequest[] {
+  return prs.filter((pr: PullRequest) => {
+    const labelsNames = pr.labels.map(label => label.name)
+    return labelsNames.includes("Needs review")
+  })
+}
+
 export function PullRequests() {
-  const [chartData, setChartData] = useState(undefined)
-  const [prs, setPrs] = useState(undefined)
+  const [loadedPrs, setLoadedPrs] = useState(undefined)
+  const [onlyNeedsReview, setOnlyNeedsReview] = useState(true)
   useEffect(() => {
     loadAllPullRequests().then(prs => {
-      setChartData(prsToChartData(prs))
-      setPrs(prs)
+      setLoadedPrs(prs)
     })
   }, [])
-  if (!chartData || !prs) {
+  if (!loadedPrs) {
     return <CenteredContent>
       <CircularProgress />
     </CenteredContent>
   }
+  const prs = onlyNeedsReview ? leaveOnlyNeedsReview(loadedPrs) : loadedPrs
+  const chartData = prsToChartData(prs)
   return <Page>
     <ChartView>
       <Chart chartData={chartData}/>
@@ -84,6 +94,16 @@ export function PullRequests() {
         </RightColumnSection>
         <RightColumnSection>
           <Chip label={`${developersNumber(prs)} developers`}/>
+        </RightColumnSection>
+        <RightColumnSection>
+          <ControlLabel
+            value="onlyNeedsReview"
+            control={<Checkbox color="primary" />}
+            label={<p><HighlightedText>needs review</HighlightedText> only</p>}
+            labelPlacement="end"
+            checked={onlyNeedsReview}
+            onChange={(e, value) => setOnlyNeedsReview(value)}
+          />
         </RightColumnSection>
       </RightColumnContent>
     </RightColumn>
@@ -117,4 +137,12 @@ const RightColumnContent = styled.div`
 
 const RightColumnSection = styled.div`
   padding-top: 8px;
+`
+
+const ControlLabel = styled(FormControlLabel)`
+  color: #5a5a5a;
+`
+
+const HighlightedText = styled.span`
+  color: #424242;
 `

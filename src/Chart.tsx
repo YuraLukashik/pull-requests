@@ -95,10 +95,14 @@ function buildSVG(charData: ChartData) {
 
 
 export function Chart(props: { chartData: ChartData }) {
-  const chartContainerRef = useRef(null)
+  const chartContainerRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const svg = buildSVG(props.chartData)
-    chartContainerRef.current.append(svg.node())
-  }, [])
+    const chartContainer = chartContainerRef.current
+    while (chartContainer.hasChildNodes()) {
+      chartContainer.removeChild(chartContainer.lastChild)
+    }
+    chartContainer.append(svg.node())
+  }, [props.chartData])
   return <div ref={chartContainerRef}/>
 }
