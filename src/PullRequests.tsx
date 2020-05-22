@@ -90,16 +90,16 @@ export function PullRequests() {
     <RightColumn>
       <RightColumnContent>
         <RightColumnSection>
-          <Chip label={`${prs.length} pull requests`}/>
+          <PurpleBadge label={<span><BoldText>{prs.length}</BoldText> Pull Requests</span>}/>
         </RightColumnSection>
         <RightColumnSection>
-          <Chip label={`${developersNumber(prs)} developers`}/>
+          <BlueBadge label={<span><BoldText>{developersNumber(prs)}</BoldText> Developers</span>}/>
         </RightColumnSection>
         <RightColumnSection>
           <ControlLabel
             value="onlyNeedsReview"
             control={<Checkbox color="primary" />}
-            label={<p><HighlightedText>needs review</HighlightedText> only</p>}
+            label={<Text>PR needs review</Text>}
             labelPlacement="end"
             checked={onlyNeedsReview}
             onChange={(e, value) => setOnlyNeedsReview(value)}
@@ -118,7 +118,7 @@ function developersNumber(prs: PullRequest[]): number {
 const Page = styled.div`
   display: flex;
   height: 100vh;
-  background-color: #B3B3B4;
+  background-color: #ffffff;
 `
 
 const ChartView = styled.div`
@@ -130,7 +130,7 @@ const RightColumn = styled.div`
 
 const RightColumnContent = styled.div`
   padding-left: 32px;
-  padding-top: 16px;
+  padding-top: 48px;
   display: flex;
   flex-direction: column;
 `
@@ -140,9 +140,23 @@ const RightColumnSection = styled.div`
 `
 
 const ControlLabel = styled(FormControlLabel)`
-  color: #5a5a5a;
+  font-size: 0.8125rem;
 `
 
-const HighlightedText = styled.span`
-  color: #424242;
+const Text = styled.span`
+  font-size: 0.8125rem;
+`
+
+const PurpleBadge = styled(Chip)`
+  background-color: #8561c5;
+  color: white;
+`
+
+const BlueBadge = styled(Chip)`
+  background-color: #5393ff;
+  color: white;
+`
+
+const BoldText = styled.span`
+  font-weight: bold;
 `

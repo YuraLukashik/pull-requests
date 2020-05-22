@@ -15,7 +15,7 @@ function buildSVG(charData: ChartData) {
   const height = 800
   const color = d3.scaleLinear()
     .domain([0, 5])
-    .range(["hsl(210,11%,96%)", "hsl(270,2%,36%)"])
+    .range(["hsl(0,0%,100%)", "hsl(270,2%,36%)"])
     .interpolate(d3.interpolateHcl)
 
   const pack = data => d3.pack()
