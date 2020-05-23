@@ -6,6 +6,11 @@ export type Label = {
   name: string
 }
 
+export type Review = {
+  id: string
+  state: string
+}
+
 export type PullRequest = {
   id: string
   title: string
@@ -16,6 +21,7 @@ export type PullRequest = {
     id: string
   }
   labels: Label[]
+  reviews: Review[]
 }
 
 export async function loadAllPullRequests(): Promise<PullRequest[]> {
@@ -42,6 +48,12 @@ export async function loadAllPullRequests(): Promise<PullRequest[]> {
                 id
               }
             }
+            reviews(first: 100) {
+              nodes {
+                id
+                state
+              }
+            }
           }
         }
       }
@@ -56,6 +68,7 @@ export async function loadAllPullRequests(): Promise<PullRequest[]> {
   return pullRequests.map(rawPR => ({
     ...rawPR,
     createdAt: new Date(rawPR.createdAt),
-    labels: rawPR.labels.nodes
+    labels: rawPR.labels.nodes,
+    reviews: rawPR.reviews.nodes
   }))
 }
