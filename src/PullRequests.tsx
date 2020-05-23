@@ -7,6 +7,7 @@ import Chip from "@material-ui/core/Chip"
 import { CenteredContent } from "./Layouts"
 import { loadAllPullRequests, PullRequest } from "./github-api"
 import { applyFilters, defaultFilters, Filters, FiltersBlock } from "./Filters"
+import pluralize from "pluralize"
 
 function parseTeam(title: string): string {
   const pattern = /^([A-Z0-9]+)[-\s][0-9]+/
@@ -17,14 +18,18 @@ function parseTeam(title: string): string {
   return matches[1]
 }
 
-function color(createdAt: Date): string {
+function daysPastSince(date: Date): number {
   const now = new Date()
-  const days = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 25)
+  return Math.floor((now.getTime() - date.getTime()) / (1000 * 3600 * 25))
+}
+
+function color(createdAt: Date): string {
+  const days = daysPastSince(createdAt)
   if (days > 15) {
-    return "#5C6B5C"
+    return "#7C665E"
   }
   if (days > 8) {
-    return "#7C665E"
+    return "#7E9980"
   }
   if (days > 5) {
     return "#AA8B80"
@@ -42,9 +47,11 @@ function prsToChartData(prs: PullRequest[]): ChartData {
     if (teams[team] === undefined) {
       teams[team] = []
     }
+    const authorName = pr.author.name ? pr.author.name : pr.author.login
+    const daysPast = daysPastSince(pr.createdAt)
     teams[team].push({
       name: pr.title,
-      description: pr.author.name ? pr.author.name : pr.author.login,
+      description: `${authorName} / ${daysPast} ${pluralize("day", daysPast)}`,
       value: pr.additions + pr.deletions,
       color: color(pr.createdAt)
     })

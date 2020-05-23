@@ -64,6 +64,9 @@ function buildSVG(charData: ChartData) {
     .join("text")
     .style("fill-opacity", d => d.parent === root ? 1 : 0)
     .style("display", d => d.parent === root ? "inline" : "none")
+    .style("font-weight", "bold")
+    .style("font-family", "Roboto")
+    .style("font-size", "0.8125rem")
     .html(d => labelHtml(d.data));
 
   zoomTo([root.x, root.y, root.r * 2]);
