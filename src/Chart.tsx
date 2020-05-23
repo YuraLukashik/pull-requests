@@ -5,9 +5,16 @@ import * as React from "react"
 
 export type ChartData = {
   name: string
+  description?: string
   value?: number
   children?: ChartData[]
   color?: string
+}
+
+function labelHtml(data: ChartData):string {
+  const nameNode = `<tspan>${data.name}</tspan>`
+  const descriptionNode = data.description ? `<tspan x='0' dy='2em'>${data.description}</tspan>` : ""
+  return `${nameNode}${descriptionNode}`
 }
 
 function buildSVG(charData: ChartData) {
@@ -57,7 +64,7 @@ function buildSVG(charData: ChartData) {
     .join("text")
     .style("fill-opacity", d => d.parent === root ? 1 : 0)
     .style("display", d => d.parent === root ? "inline" : "none")
-    .text(d => d.data.name);
+    .html(d => labelHtml(d.data));
 
   zoomTo([root.x, root.y, root.r * 2]);
 

@@ -43,7 +43,8 @@ function prsToChartData(prs: PullRequest[]): ChartData {
       teams[team] = []
     }
     teams[team].push({
-      name: pr.title + "\n",
+      name: pr.title,
+      description: pr.author.name ? pr.author.name : pr.author.login,
       value: pr.additions + pr.deletions,
       color: color(pr.createdAt)
     })

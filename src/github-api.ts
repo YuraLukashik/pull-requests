@@ -19,6 +19,8 @@ export type PullRequest = {
   createdAt: Date
   author: {
     id: string
+    name: string | null
+    login: string
   }
   labels: Label[]
   reviews: Review[]
@@ -40,6 +42,8 @@ export async function loadAllPullRequests(): Promise<PullRequest[]> {
             author {
               ... on User {
                 id
+                name
+                login
               }
             }
             labels(first: 100) {
