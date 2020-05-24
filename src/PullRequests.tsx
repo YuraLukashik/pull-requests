@@ -83,6 +83,7 @@ export function PullRequests() {
   }
   const prs = applyFilters(loadedPrs, filters)
   const chartData = prsToChartData(prs)
+  const numberOfDevelopers = developersNumber(prs)
   return <Page>
     <ChartView>
       <Chart chartData={chartData}/>
@@ -90,10 +91,10 @@ export function PullRequests() {
     <RightColumn>
       <RightColumnContent>
         <RightColumnSection>
-          <PurpleBadge label={<span><BoldText>{prs.length}</BoldText> Pull Requests</span>}/>
+          <PurpleBadge label={<span><BoldText>{prs.length}</BoldText> {pluralize("Pull Request", prs.length)}</span>}/>
         </RightColumnSection>
         <RightColumnSection>
-          <BlueBadge label={<span><BoldText>{developersNumber(prs)}</BoldText> Developers</span>}/>
+          <BlueBadge label={<span><BoldText>{numberOfDevelopers}</BoldText> {pluralize("Developer", numberOfDevelopers)}</span>}/>
         </RightColumnSection>
         <RightColumnSection>
           <FiltersBlock filters={filters} onFiltersChange={setFilters}/>
