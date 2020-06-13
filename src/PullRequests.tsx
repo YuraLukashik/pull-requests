@@ -26,18 +26,18 @@ function daysPastSince(date: Date): number {
 function color(createdAt: Date): string {
   const days = daysPastSince(createdAt)
   if (days > 15) {
-    return "#7C665E"
+    return "#EC8565"
   }
   if (days > 8) {
-    return "#7E9980"
+    return "#F4A261"
   }
   if (days > 5) {
-    return "#AA8B80"
+    return "#E9C46A"
   }
   if (days > 3) {
-    return "#E2C1B5"
+    return "#8EACB2"
   }
-  return "#EFDDD6"
+  return "#5EC4BC"
 }
 
 function prsToChartData(prs: PullRequest[]): ChartData {
