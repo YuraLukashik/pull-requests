@@ -1,8 +1,6 @@
 import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from "react"
 import * as React from "react"
-import { CircularProgress } from "@material-ui/core"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
+import { CircularProgress, TextField, Button } from "@mui/material"
 import styled from "styled-components"
 import { CenteredContent } from "./Layouts"
 

@@ -42,7 +42,7 @@ function buildSVG(charData: ChartData) {
     .style("margin", "0 -14px")
     .style("background", color(0))
     .style("cursor", "pointer")
-    .on("click", () => zoom(root));
+    .on("click", (event) => zoom(event, root));
 
   const node = svg.append("g")
     .selectAll("circle")
@@ -52,7 +52,7 @@ function buildSVG(charData: ChartData) {
     .attr("pointer-events", d => !d.children ? "none" : null)
     .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); })
     .on("mouseout", function() { d3.select(this).attr("stroke", null); })
-    .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation()));
+    .on("click", (event, d) => focus !== d && (zoom(event, d), event.stopPropagation()));
 
   const label = svg.append("g")
     .style("font", "10px sans-serif")
@@ -81,13 +81,13 @@ function buildSVG(charData: ChartData) {
     node.attr("r", d => d.r * k);
   }
 
-  function zoom(d) {
+  function zoom(event, d) {
     const focus0 = focus;
 
     focus = d;
 
     const transition = svg.transition()
-      .duration(d3.event.altKey ? 7500 : 750)
+      .duration(event.altKey ? 7500 : 750)
       .tween("zoom", d => {
         const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
         return t => zoomTo(i(t));

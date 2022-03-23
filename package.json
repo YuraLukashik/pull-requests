@@ -1,23 +1,24 @@
 {
   "name": "pull-requests",
   "version": "0.0.1",
-  "main": "src/app.ts",
   "author": "Yura Lukashik <yuralukashik@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/d3": "^5.7.2",
-    "@types/react": "^16.9.19",
-    "@types/styled-components": "^4.4.2",
-    "parcel-bundler": "^1.12.4",
-    "typescript": "^3.7.5"
+    "@types/d3": "^7.1.0",
+    "@types/react": "^17.0.2",
+    "@types/styled-components": "^5.1.24",
+    "parcel": "^2.4.0",
+    "process": "^0.11.10"
   },
   "dependencies": {
-    "@material-ui/core": "^4.9.1",
-    "@octokit/graphql": "^4.3.1",
-    "d3": "^5.15.0",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.5.2",
+    "@octokit/graphql": "^4.8.0",
+    "d3": "^7.3.0",
     "pluralize": "^8.0.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "styled-components": "^5.0.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.3"
   }
 }

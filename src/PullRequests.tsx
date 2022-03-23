@@ -1,9 +1,8 @@
 import * as React from "react"
 import { Chart, ChartData } from "./Chart"
 import { useEffect, useState } from "react"
-import { CircularProgress } from "@material-ui/core"
+import { CircularProgress, Chip } from "@mui/material"
 import styled from 'styled-components'
-import Chip from "@material-ui/core/Chip"
 import { CenteredContent } from "./Layouts"
 import { loadAllPullRequests, PullRequest } from "./github-api"
 import { applyFilters, defaultFilters, Filters, FiltersBlock } from "./Filters"

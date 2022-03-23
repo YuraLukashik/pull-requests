@@ -1,7 +1,6 @@
-import Checkbox from "@material-ui/core/Checkbox"
+import { Checkbox, FormControlLabel } from "@mui/material"
 import * as React from "react"
 import styled from "styled-components"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { Text } from "./PullRequests"
 import { PullRequest } from "./github-api"
 
